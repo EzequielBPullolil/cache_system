@@ -29,17 +29,26 @@ func handleUncache(message string) string {
 }
 func handleOperation(data []byte) {
 	message := string(data)
-	if strings.Contains(message, "Cache") {
-		uuid, data := handleCache(message)
-		cacheManager.WriteCache(uuid, data)
-	} else if strings.Contains(message, "Uncache") {
-		uuid := handleUncache(message)
-		cacheManager.Uncache(uuid)
-	} else if strings.Contains(message, "Fetch") {
-		uuid := handleFetch(message)
-		cacheManager.Fetch(uuid)
-	} else {
-		fmt.Println("No operation")
+
+	switch message[:strings.IndexRune(message, ' ')] {
+	case "Cache":
+		fmt.Println("cache")
+		if err := cacheManager.WriteCache(handleCache(message)); err != nil {
+			fmt.Println("error")
+		}
+		break
+	case "Uncache":
+		fmt.Println("Uncache")
+		if err := cacheManager.Uncache(handleUncache(message)); err != nil {
+			fmt.Println("error")
+		}
+		break
+	case "Fetch":
+		fmt.Println("Fetch")
+		if err := cacheManager.Fetch(handleFetch(message)); err != nil {
+			fmt.Println("error")
+		}
+		break
 	}
 }
 
