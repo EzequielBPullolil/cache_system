@@ -1,5 +1,5 @@
 package cacheManager
 
-func Uncache(message string) {
-
+func Uncache(message string) error {
+	return nil
 }

@@ -1,5 +1,6 @@
 package cacheManager
 
-func WriteCache(uuid string, data []byte) {
-
+// Write cache file associating uuid with data
+func WriteCache(uuid string, data []byte) error {
+	return nil
 }

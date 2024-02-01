@@ -1,5 +1,5 @@
 package cacheManager
 
-func Fetch(message string) {
-
+func Fetch(message string) error {
+	return nil
 }
