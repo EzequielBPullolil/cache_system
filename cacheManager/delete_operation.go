@@ -1,5 +1,5 @@
 package cacheManager
 
-func handleUncache(message string) {
+func Uncache(message string) {
 
 }

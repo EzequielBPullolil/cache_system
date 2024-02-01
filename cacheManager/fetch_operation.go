@@ -1,5 +1,5 @@
 package cacheManager
 
-func handleFetch(message string) {
+func Fetch(message string) {
 
 }
