@@ -14,7 +14,14 @@ The cache system is a TCP/IP server developed in Golang, which consists of the f
 3. Fetch: To retrieve the cached data by the identifier assigned during caching, this operation takes a single parameter, which is the uuid of the data.
 
 ## Use
- COMMING
+1. start service
+```
+    comming son
+```
+
+
+### 
+
 
 ## Versions
 [Go 1.21.6](https://go.dev/dl/)
