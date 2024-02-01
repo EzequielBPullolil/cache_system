@@ -18,13 +18,16 @@ func main() {
 	defer listen.Close()
 
 	for {
+		data := make([]byte, 1024)
 		conn, err := listen.Accept()
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		fmt.Println("Connection created")
+		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
+		fmt.Println("Connection created " + clientIP + ":" + port)
+		conn.Read(data)
 		conn.Close()
 	}
 }
