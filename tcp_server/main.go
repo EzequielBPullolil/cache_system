@@ -30,16 +30,16 @@ func handleUncache(message string) string {
 func handleOperation(data []byte) {
 	message := string(data)
 
-	switch message[:strings.IndexRune(message, ' ')] {
-	case "Cache":
+	switch strings.ToLower(message[:strings.IndexRune(message, ' ')]) {
+	case "cache":
 		if err := cacheManager.WriteCache(handleCache(message)); err != nil {
 			fmt.Println("error")
 		}
-	case "Uncache":
+	case "uncache":
 		if err := cacheManager.Uncache(handleUncache(message)); err != nil {
 			fmt.Println("error")
 		}
-	case "Fetch":
+	case "fetch":
 		if err := cacheManager.Fetch(handleFetch(message)); err != nil {
 			fmt.Println("error")
 		}
