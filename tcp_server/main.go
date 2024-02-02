@@ -32,29 +32,22 @@ func handleOperation(data []byte) {
 
 	switch message[:strings.IndexRune(message, ' ')] {
 	case "Cache":
-		fmt.Println("cache")
 		if err := cacheManager.WriteCache(handleCache(message)); err != nil {
 			fmt.Println("error")
 		}
-		break
 	case "Uncache":
-		fmt.Println("Uncache")
 		if err := cacheManager.Uncache(handleUncache(message)); err != nil {
 			fmt.Println("error")
 		}
-		break
 	case "Fetch":
-		fmt.Println("Fetch")
 		if err := cacheManager.Fetch(handleFetch(message)); err != nil {
 			fmt.Println("error")
 		}
-		break
 	}
 }
 
 func main() {
 	listen, err := net.Listen("tcp", "localhost:29033")
-
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
