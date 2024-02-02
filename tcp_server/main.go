@@ -65,8 +65,11 @@ func main() {
 
 		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
 		fmt.Println("Connection created " + clientIP + ":" + port)
-		conn.Read(data)
-		go handleOperation(data)
+		n, _ := conn.Read(data)
+
+		if n > 0 {
+			go handleOperation(data)
+		}
 		conn.Close()
 	}
 }
