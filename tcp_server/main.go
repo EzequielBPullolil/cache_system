@@ -10,10 +10,10 @@ import (
 	"github.com/EzequielBPullolil/cache_system/cacheManager"
 )
 
-func handleCache(message string) (string, []byte) {
+func handleCache(message string) (string, string) {
 	message = message[6:]
 	uuid := message[0:strings.IndexRune(message, ' ')]
-	data := []byte(message[strings.IndexRune(message, ' ')+1:])
+	data := message[strings.IndexRune(message, ' ')+1:]
 	fmt.Println("Uuid " + uuid)
 	fmt.Println("data" + string(data))
 	return uuid, data
