@@ -1,18 +1,20 @@
 package command
 
 import (
+	"fmt"
 	"net"
+	"os"
 	"strings"
 )
 
 func CommandHandler(s string, conn net.Conn) {
-	switch s[:strings.IndexRune(s, ' ')] {
-	case "Cache":
+	if strings.Contains(s, "Cache") {
+		handleCache(s, conn)
+	} else if strings.Contains(s, "Uncache") {
 
-	case "Uncache":
-
-	case "Fetch":
-
+	} else if strings.Contains(s, "Exit") || strings.Contains(s, "exit") {
+		conn.Close()
+		fmt.Println("Exit")
+		os.Exit(1)
 	}
-
 }
