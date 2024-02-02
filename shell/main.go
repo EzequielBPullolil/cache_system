@@ -27,13 +27,16 @@ func main() {
 	fmt.Print("\033[H\033[2J")
 	fmt.Println("Cache shell")
 
-	connection := createConnection(*host, *port)
 	for {
 		fmt.Print("Cachex> ")
 		cmd, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
+		connection := createConnection(*host, *port)
 		command.CommandHandler(cmd, connection)
+
+		connection.Close()
 	}
+
 }
