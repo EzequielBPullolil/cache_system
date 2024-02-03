@@ -73,7 +73,7 @@ func main() {
 	defer server.Close()
 
 	for {
-		data := make([]byte, 1024)
+		var data []byte
 		response := new(string)
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
