@@ -1,7 +1,6 @@
 package cacheManager
 
 import (
-	"encoding/json"
 	"os"
 )
 
@@ -15,8 +14,7 @@ func openOrCreateCacheFile() *os.File {
 }
 
 func appendCache(f *os.File, d cacheData) error {
-	encodedData, _ := json.MarshalIndent(d, "", "    ")
-	f.Write(encodedData)
-	defer f.Close()
+	f.Write([]byte(d.format()))
+	f.Close()
 	return nil
 }

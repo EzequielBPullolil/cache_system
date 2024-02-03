@@ -1,6 +1,6 @@
 package cacheManager
 
-import "strings"
+import "fmt"
 
 type cacheData struct {
 	Uuid      string `json:"uuid"`
@@ -10,11 +10,13 @@ type cacheData struct {
 
 func CacheData(uuid string, data string, data_type string) cacheData {
 	return cacheData{
-		Uuid:      strings.TrimSpace(uuid),
-		Data:      strings.TrimSpace(data),
+		Uuid:      uuid,
+		Data:      data,
 		Data_type: data_type,
 	}
 }
-func semiconsData(d string) string {
-	return string('"') + d + string('"')
+
+// / Describe an CacheData formated to string
+func (d cacheData) format() string {
+	return fmt.Sprintf("[%s]\ndata=%s\nData_type=%s\n", d.Uuid, d.Data, d.Data_type)
 }
