@@ -1,5 +1,6 @@
 package cacheManager
 
-func Fetch(message string) error {
-	return nil
+func FetchCache(uuid string) (string, error) {
+	return "", nil
+
 }
