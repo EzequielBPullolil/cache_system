@@ -10,6 +10,8 @@ import (
 func CommandHandler(s string, conn net.Conn) {
 	if strings.Contains(s, "Cache") {
 		handleCache(s, conn)
+	} else if strings.Contains(s, "Fetch") {
+		handleFetch(s, conn)
 	} else if strings.Contains(s, "Uncache") {
 
 	} else if strings.Contains(s, "Exit") || strings.Contains(s, "exit") {
