@@ -27,7 +27,8 @@ func handleUncache(message string) string {
 
 	return message
 }
-func handleOperation(data []byte) {
+func handleOperation(data []byte, response *string) {
+	var err error
 	message := string(data)
 
 	switch strings.ToLower(message[:strings.IndexRune(message, ' ')]) {
@@ -40,7 +41,8 @@ func handleOperation(data []byte) {
 			fmt.Println("error")
 		}
 	case "fetch":
-		if err := cacheManager.Fetch(handleFetch(message)); err != nil {
+		*response, err = cacheManager.FetchCache(handleFetch(message))
+		if err != nil {
 			fmt.Println("error")
 		}
 	}
@@ -57,6 +59,7 @@ func main() {
 
 	for {
 		data := make([]byte, 1024)
+		response := new(string)
 		conn, err := listen.Accept()
 		if err != nil {
 			log.Fatal(err)
@@ -68,7 +71,7 @@ func main() {
 		n, _ := conn.Read(data)
 
 		if n > 0 {
-			go handleOperation(data)
+			go handleOperation(data, response)
 		}
 		conn.Close()
 	}
