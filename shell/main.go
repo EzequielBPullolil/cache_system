@@ -11,7 +11,6 @@ import (
 )
 
 func createConnection(host, port string) net.Conn {
-	fmt.Println(host + ":" + port)
 	conn, err := net.Dial("tcp", host+":"+port)
 	if err != nil {
 		panic(err)
