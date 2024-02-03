@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"strings"
@@ -48,23 +47,36 @@ func handleOperation(data []byte, response *string) {
 	}
 }
 
-func main() {
-	listen, err := net.Listen("tcp", "localhost:29033")
+// Stop app if err != nil
+func checkError(err error, error_message string) {
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(error_message)
 		os.Exit(1)
 	}
+}
 
-	defer listen.Close()
+// Create an TCP server instance using host and port --env variables
+func createServerInstance() *net.TCPListener {
+	serverAddres := fmt.Sprintf("%s:%s", os.Getenv("host"), os.Getenv("port"))
+	addr, err := net.ResolveTCPAddr("tcp", serverAddres)
+	checkError(err, "cant create serverAddres")
+
+	l, err := net.ListenTCP("tcp", addr)
+
+	checkError(err, "cant create Tcp server")
+
+	return l
+}
+func main() {
+	server := createServerInstance()
+
+	defer server.Close()
 
 	for {
 		data := make([]byte, 1024)
 		response := new(string)
-		conn, err := listen.Accept()
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
+		conn, err := server.Accept()
+		checkError(err, "error accepting request")
 
 		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
 		fmt.Println("Connection created " + clientIP + ":" + port)
