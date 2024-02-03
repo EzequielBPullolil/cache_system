@@ -74,7 +74,7 @@ func main() {
 
 	for {
 		var data []byte
-		response := new(string)
+		var response string
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
 		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
@@ -84,7 +84,7 @@ func main() {
 		n, _ := conn.Read(data)
 
 		if n > 0 {
-			go handleOperation(data, response)
+			go handleOperation(data, &response)
 		}
 		conn.Close()
 	}
