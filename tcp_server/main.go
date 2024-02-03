@@ -67,6 +67,12 @@ func createServerInstance() *net.TCPListener {
 
 	return l
 }
+func printClienInfo(client net.Conn) {
+	clientIP, port, _ := net.SplitHostPort(client.RemoteAddr().String())
+	fmt.Println("[client connection]")
+	fmt.Printf("IP: %s \nport: %s\n", clientIP, port)
+	fmt.Println("[end connection]")
+}
 func main() {
 	server := createServerInstance()
 
@@ -77,12 +83,9 @@ func main() {
 		var response string
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
-		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
-		fmt.Println("[client connection]")
-		fmt.Printf("IP: %s \nport: %s\n", clientIP, port)
-		fmt.Println("[end connection]")
-		n, _ := conn.Read(data)
-
+		printClienInfo(conn)
+		n, err := conn.Read(data)
+		checkError(err, "error reading client data")
 		if n > 0 {
 			go handleOperation(data, &response)
 		}
