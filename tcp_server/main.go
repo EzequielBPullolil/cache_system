@@ -77,9 +77,10 @@ func main() {
 		response := new(string)
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
-
 		clientIP, port, _ := net.SplitHostPort(conn.RemoteAddr().String())
-		fmt.Println("Connection created " + clientIP + ":" + port)
+		fmt.Println("[client connection]")
+		fmt.Printf("IP: %s \nport: %s\n", clientIP, port)
+		fmt.Println("[end connection]")
 		n, _ := conn.Read(data)
 
 		if n > 0 {
