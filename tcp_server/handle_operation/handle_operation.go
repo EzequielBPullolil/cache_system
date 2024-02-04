@@ -10,8 +10,7 @@ import (
 handles which operation to call based on the client request
 and returns a response if necessary
 
-TODO: fix how the byte slice arguments are identified
-	- json are not well received
+
 */
 
 func HandleOperation(d []byte, response *string) {
@@ -21,7 +20,11 @@ func HandleOperation(d []byte, response *string) {
 		uuid := data[1]
 		switch strings.ToLower(operation) {
 		case "cache":
-			cacheManager.WriteCache(uuid, data[2])
+			var data_ string
+			for _, e := range data[2:] {
+				data_ += string(e)
+			}
+			cacheManager.WriteCache(uuid, data_)
 			*response = "cached data"
 		case "uncache":
 			cacheManager.Uncache(uuid)
