@@ -13,7 +13,7 @@ and returns a response if necessary
 
 */
 
-func HandleOperation(d []byte, response *string) {
+func HandleOperation(d []byte) {
 	data := strings.Split(string(d), " ")
 	if len(data) >= 2 {
 		operation := data[0]
@@ -25,14 +25,9 @@ func HandleOperation(d []byte, response *string) {
 				data_ += string(e)
 			}
 			cacheManager.WriteCache(uuid, data_)
-			*response = "cached data"
 		case "uncache":
 			cacheManager.Uncache(uuid)
-			*response = "uncached data"
 		case "fetch":
-			*response, _ = cacheManager.FetchCache(uuid)
 		}
-	} else {
-		*response = "invalid operation"
 	}
 }

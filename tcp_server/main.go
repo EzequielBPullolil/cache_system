@@ -38,8 +38,7 @@ func main() {
 	defer server.Close()
 
 	for {
-		data := make([]byte, 1024*3)      // Explicit byte
-		response := "operation not found" // Default response
+		data := make([]byte, 1024*3) // Explicit byte
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
 		defer conn.Close()
@@ -47,10 +46,12 @@ func main() {
 		n, err := conn.Read(data)
 		checkError(err, "error reading client data")
 		if n > 0 {
-			go handleoperation.HandleOperation(data, &response) // here change the response variable
+			go handleoperation.HandleOperation(data) // here change the response variable
 		}
 		// response to client and close connection
-		conn.Write([]byte(response))
+		conn.Write(data)
 		log.Println("[end connection]")
+
+		conn.Close()
 	}
 }
