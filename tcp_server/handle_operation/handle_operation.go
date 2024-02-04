@@ -9,6 +9,9 @@ import (
 /*
 handles which operation to call based on the client request
 and returns a response if necessary
+
+TODO: fix how the byte slice arguments are identified
+	- json are not well received
 */
 
 func HandleOperation(d []byte, response *string) {
@@ -24,7 +27,7 @@ func HandleOperation(d []byte, response *string) {
 			cacheManager.Uncache(uuid)
 			*response = "uncached data"
 		case "fetch":
-			cacheManager.FetchCache(uuid)
+			*response, _ = cacheManager.FetchCache(uuid)
 		}
 	} else {
 		*response = "invalid operation"
