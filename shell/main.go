@@ -33,9 +33,9 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 		}
 		connection := createConnection(*host, *port)
+		defer connection.Close()
 		command.CommandHandler(cmd, connection)
 
-		connection.Close()
 	}
 
 }
