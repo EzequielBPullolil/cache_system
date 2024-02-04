@@ -28,6 +28,7 @@ func HandleOperation(d []byte) {
 		case "uncache":
 			cacheManager.Uncache(uuid)
 		case "fetch":
+			cacheManager.FetchCache(uuid)
 		}
 	}
 }
