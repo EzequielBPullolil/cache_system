@@ -13,5 +13,3 @@ func handleFetch(s string, conn net.Conn) {
 
 	conn.Write([]byte("Fetch " + uuid))
 }
-
-/// Cache asdasdasda-asdasda {"hola":"hola"}
