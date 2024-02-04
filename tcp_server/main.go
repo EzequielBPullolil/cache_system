@@ -4,48 +4,9 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"strings"
 
-	"github.com/EzequielBPullolil/cache_system/cacheManager"
+	handleoperation "github.com/EzequielBPullolil/cache_system/tcp_server/handle_operation"
 )
-
-func handleCache(message string) (string, string) {
-	message = message[6:]
-	uuid := message[0:strings.IndexRune(message, ' ')]
-	data := message[strings.IndexRune(message, ' ')+1:]
-	fmt.Println("Uuid " + uuid)
-	fmt.Println("data" + string(data))
-	return uuid, data
-}
-func handleFetch(message string) string {
-	message = message[5:]
-	return message
-}
-func handleUncache(message string) string {
-	message = message[7:]
-
-	return message
-}
-func handleOperation(data []byte, response *string) {
-	var err error
-	message := string(data)
-
-	switch strings.ToLower(message[:strings.IndexRune(message, ' ')]) {
-	case "cache":
-		if err := cacheManager.WriteCache(handleCache(message)); err != nil {
-			fmt.Println("error")
-		}
-	case "uncache":
-		if err := cacheManager.Uncache(handleUncache(message)); err != nil {
-			fmt.Println("error")
-		}
-	case "fetch":
-		*response, err = cacheManager.FetchCache(handleFetch(message))
-		if err != nil {
-			fmt.Println("error")
-		}
-	}
-}
 
 // Stop app if err != nil
 func checkError(err error, error_message string) {
@@ -79,16 +40,21 @@ func main() {
 	defer server.Close()
 
 	for {
-		var data []byte
-		var response string
+		data := make([]byte, 2048)
+		response := ""
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
+		defer conn.Close()
 		printClienInfo(conn)
 		n, err := conn.Read(data)
 		checkError(err, "error reading client data")
 		if n > 0 {
-			go handleOperation(data, &response)
+			go handleoperation.HandleOperation(data, &response)
+		} else {
+			response = "operation not found"
 		}
+		// response to client and close connection
+		conn.Write([]byte(response))
 		conn.Close()
 	}
 }
