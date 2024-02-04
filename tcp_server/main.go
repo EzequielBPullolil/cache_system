@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net"
 	"os"
 
@@ -11,14 +11,14 @@ import (
 // Stop app if err != nil
 func checkError(err error, error_message string) {
 	if err != nil {
-		fmt.Println(error_message)
+		log.Fatal(error_message)
 		os.Exit(1)
 	}
 }
 
 // Create an TCP server instance using host and port --env variables
 func createServerInstance() *net.TCPListener {
-	serverAddres := fmt.Sprintf("%s:%s", os.Getenv("host"), os.Getenv("port"))
+	serverAddres := os.Getenv("host") + ":" + os.Getenv("port")
 	addr, err := net.ResolveTCPAddr("tcp", serverAddres)
 	checkError(err, "cant create serverAddres")
 
@@ -30,9 +30,7 @@ func createServerInstance() *net.TCPListener {
 }
 func printClienInfo(client net.Conn) {
 	clientIP, port, _ := net.SplitHostPort(client.RemoteAddr().String())
-	fmt.Println("[client connection]")
-	fmt.Printf("IP: %s \nport: %s\n", clientIP, port)
-	fmt.Println("[end connection]")
+	log.Printf("[client connection] address: %s:%s\n", clientIP, port)
 }
 func main() {
 	server := createServerInstance()
@@ -56,5 +54,6 @@ func main() {
 		// response to client and close connection
 		conn.Write([]byte(response))
 		conn.Close()
+		log.Println("[end connection]")
 	}
 }
