@@ -12,7 +12,7 @@ func FetchCache(uuid string) (string, error) {
 	file_data := strings.Split(string(d), "\n")
 	for i := 0; i < len(file_data); i++ {
 		if file_data[i] == "["+uuid+"]" {
-			data = file_data[i]
+			data = file_data[i+1]
 		}
 	}
 	return data, nil
