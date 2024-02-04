@@ -19,8 +19,10 @@ func HandleOperation(d []byte, response *string) {
 		switch strings.ToLower(operation) {
 		case "cache":
 			cacheManager.WriteCache(uuid, data[2])
+			*response = "cached data"
 		case "uncache":
 			cacheManager.Uncache(uuid)
+			*response = "uncached data"
 		case "fetch":
 			cacheManager.FetchCache(uuid)
 		}
