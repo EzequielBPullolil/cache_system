@@ -39,7 +39,7 @@ func main() {
 
 	for {
 		data := make([]byte, 2048)
-		response := ""
+		response := "operation not found"
 		conn, err := server.Accept()
 		checkError(err, "error accepting request")
 		defer conn.Close()
@@ -48,12 +48,9 @@ func main() {
 		checkError(err, "error reading client data")
 		if n > 0 {
 			go handleoperation.HandleOperation(data, &response)
-		} else {
-			response = "operation not found"
 		}
 		// response to client and close connection
 		conn.Write([]byte(response))
-		conn.Close()
 		log.Println("[end connection]")
 	}
 }
