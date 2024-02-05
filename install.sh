@@ -35,4 +35,7 @@ echo "Updating PATH in ~/.bashrc and ~/.profile..."
 echo "export PATH=\$PATH:$DIRECTORY" >> ~/.bashrc
 echo "export PATH=\$PATH:$DIRECTORY" >> ~/.profile
 
+echo "Removing source folder" 
+rm -r ".cache_system"
 echo "Installation completed successfully."
+

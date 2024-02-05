@@ -22,9 +22,9 @@ First and foremost, we need to have Go installed in version 1.21.x.
     git clone https://github.com/EzequielBPullolil/cache_system && cd cache_system
     ```
 2. Run the install script 
-```
-    ./install.sh
-```
+    ```
+    source ./install.sh
+    ```
 This will install the cache system in the directory $HOME/.cache_system_ and add the commands 'cache_server' to execute the server, and 'cachex' for the interactive shell.
 
 
