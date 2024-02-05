@@ -36,6 +36,6 @@ echo "export PATH=\$PATH:$DIRECTORY" >> ~/.bashrc
 echo "export PATH=\$PATH:$DIRECTORY" >> ~/.profile
 
 echo "Removing source folder" 
-rm -r ".cache_system"
+rm -r "../cache_system"
 echo "Installation completed successfully."
 
