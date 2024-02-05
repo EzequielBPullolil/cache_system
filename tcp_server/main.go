@@ -18,7 +18,10 @@ func checkError(err error, error_message string) {
 
 // Create an TCP server instance using host and port --env variables
 func createServerInstance() *net.TCPListener {
-	serverAddres := os.Getenv("host") + ":" + os.Getenv("port")
+	serverAddres := "localhost:29033"
+	if len(os.Args) > 2 {
+		serverAddres = os.Args[1] + ":" + os.Args[2]
+	}
 	addr, err := net.ResolveTCPAddr("tcp", serverAddres)
 	checkError(err, "cant create serverAddres")
 
