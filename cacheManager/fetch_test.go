@@ -11,8 +11,7 @@ var uuid = "unique-id"
 
 func init() {
 	os.Clearenv()
-	os.Setenv("cache_file", "test_cache")
-	os.Remove(os.Getenv("cache_file"))
+	os.Remove(".cache_file")
 }
 
 func TestFetchNonRegisteredDataReturnEmptyString(t *testing.T) {
