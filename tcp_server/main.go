@@ -13,6 +13,7 @@ import (
 func checkError(err error, error_message string) {
 	if err != nil {
 		log.Fatal(error_message)
+		log.Fatal(err)
 		os.Exit(1)
 	}
 }
@@ -25,7 +26,7 @@ func createServerInstance(host, port string) *net.TCPListener {
 
 	l, err := net.ListenTCP("tcp", addr)
 
-	checkError(err, "cant create Tcp server")
+	checkError(err, "cant create Tcp server, try using another port")
 
 	return l
 }
@@ -45,7 +46,7 @@ func main() {
 	host := changeValueOrDefault(os.Args, 1, "localhost")
 	port := changeValueOrDefault(os.Args, 2, "29033")
 	server := createServerInstance(host, port)
-	fmt.Println("Start Cache_system server" + host + ":" + port)
+	fmt.Println("Start Cache_system server at: " + host + ":" + port)
 	defer server.Close()
 
 	for {
