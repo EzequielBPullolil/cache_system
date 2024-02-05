@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"net"
 	"os"
@@ -18,11 +17,18 @@ func createConnection(host, port string) net.Conn {
 
 	return conn
 }
+
+func changeValueOrDefault(slice []string, index int, default_ string) string {
+	if len(slice) >= index {
+		return slice[index]
+	}
+
+	return default_
+}
 func main() {
 	reader := bufio.NewReader(os.Stdin)
-	host := flag.String("host", "", "The host of the tcp connection")
-	port := flag.String("port", "", "The port of the tcp connection")
-	flag.Parse()
+	host := changeValueOrDefault(os.Args, 1, "localhost")
+	port := changeValueOrDefault(os.Args, 2, "29033")
 	fmt.Print("\033[H\033[2J")
 	fmt.Println("Cache shell")
 
@@ -32,7 +38,7 @@ func main() {
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
-		connection := createConnection(*host, *port)
+		connection := createConnection(host, port)
 		defer connection.Close()
 		command.CommandHandler(cmd, connection)
 
