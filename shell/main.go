@@ -19,7 +19,7 @@ func createConnection(host, port string) net.Conn {
 }
 
 func changeValueOrDefault(slice []string, index int, default_ string) string {
-	if len(slice) >= index {
+	if len(slice) > index && index >= 0 {
 		return slice[index]
 	}
 

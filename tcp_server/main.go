@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -17,11 +18,8 @@ func checkError(err error, error_message string) {
 }
 
 // Create an TCP server instance using host and port --env variables
-func createServerInstance() *net.TCPListener {
-	serverAddres := "localhost:29033"
-	if len(os.Args) > 2 {
-		serverAddres = os.Args[1] + ":" + os.Args[2]
-	}
+func createServerInstance(host, port string) *net.TCPListener {
+	serverAddres := host + ":" + port
 	addr, err := net.ResolveTCPAddr("tcp", serverAddres)
 	checkError(err, "cant create serverAddres")
 
@@ -35,9 +33,19 @@ func printClienInfo(client net.Conn) {
 	clientIP, port, _ := net.SplitHostPort(client.RemoteAddr().String())
 	log.Printf("[client connection] address: %s:%s\n", clientIP, port)
 }
-func main() {
-	server := createServerInstance()
 
+func changeValueOrDefault(slice []string, index int, default_ string) string {
+	if len(slice) > index && index >= 0 {
+		return slice[index]
+	}
+
+	return default_
+}
+func main() {
+	host := changeValueOrDefault(os.Args, 1, "localhost")
+	port := changeValueOrDefault(os.Args, 2, "29033")
+	server := createServerInstance(host, port)
+	fmt.Println("Start Cache_system server" + host + ":" + port)
 	defer server.Close()
 
 	for {
